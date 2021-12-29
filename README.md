@@ -4,13 +4,13 @@
 
 ### 1.1 问题描述
 
-<img src="img/image-20211229212745825.png" alt="image-20211229212745825" style="zoom:50%;" />
+<img src="img/image-20211229212745825.png" alt="image-20211229212745825" style="zoom: 33%;" />
 
 ### 1.2 算法思想
 
 ​		采用分治思想，采用自顶向下的方式，将棋盘分为特殊方格所在区块以及普通区块共四个区块，之后在三个普通区块交汇处放置L型骨牌，此时问题变为各个区块内部的棋盘覆盖问题，采用自顶向下的方式，最下层的2x2区块仅有一个特殊方格，也按区块角度放置L型骨牌后区块即完成填充。
 
-<img src="img/image-20211229164153831.png" alt="image-20211229164153831" style="zoom: 67%;" />
+<img src="img/image-20211229164153831.png" alt="image-20211229164153831" style="zoom: 33%;" />
 
 ### 1.3 实现
 
@@ -256,19 +256,19 @@ public class Main {
 
 4. 输入任意字符回车退出
 
-![image-20211229192741812](img/image-20211229192741812.png)
+<img src="img/image-20211229192741812.png" alt="image-20211229192741812" style="zoom: 50%;" />
 
 ## 二、循环赛日程安排问题
 
 ### 2.1 问题描述
 
-<img src="img/image-20211229212814558.png" alt="image-20211229212814558" style="zoom:50%;" />
+<img src="img/image-20211229212814558.png" alt="image-20211229212814558" style="zoom: 33%;" />
 
 ### 2.2 算法思想
 
 ​		将比赛日程表设计成一个n行n-1列的二维表，其中，第 i 行第 j 列表示和第 i 个选手在第j 天比赛的选手。 采用分治法，递归为最小为2个选手的子问题。假设输入为n，赛程表为边长为n*n的数组，其中最左边一行就是参赛选手，右边1...n-1行为赛程安排。
 
-<img src="img/image-20211229183101093.png" alt="image-20211229183101093" style="zoom:50%;" />
+<img src="img/image-20211229183101093.png" alt="image-20211229183101093" style="zoom: 33%;" />
 
 ​		采用和棋盘覆盖法相似的思路，但是采用自底向上的方法，先计算出类似左上区，之后步骤如下
 
@@ -287,7 +287,7 @@ public class Main {
         int k = -1;
         Scanner sc = new Scanner(System.in);
         while (k == -1) {
-            System.out.printf("输入k的值（0<k<=10）: ");
+            System.out.print("输入k的值（0<k<=10）: ");
             k = sc.nextInt();
             if (k > 10 || k <= 0) {
                 k = -1;
@@ -299,7 +299,6 @@ public class Main {
 
         System.out.println("参赛选手共" + n + "位");
         int[][] schedule = new int[n][n];
-        Map<Integer, Integer> map = new HashMap<>();
             // 初始化最小左上区
             schedule[0][0] = 1;
             schedule[0][1] = 2;
@@ -329,16 +328,12 @@ public class Main {
 
                 // 拷贝左下区到右上区
                 for (int i = 0; i < halfCurrentLength; i++) {
-                    for (int j = 0; j < halfCurrentLength; j++) {
-                        schedule[i][j + halfCurrentLength] = schedule[i + halfCurrentLength][j];
-                    }
+                    System.arraycopy(schedule[i + halfCurrentLength], 0, schedule[i], halfCurrentLength, halfCurrentLength);
                 }
 
                 // 拷贝右下区到左上区
                 for (int i = 0; i < halfCurrentLength; i++) {
-                    for (int j = 0; j < halfCurrentLength; j++) {
-                        schedule[i + halfCurrentLength][j + halfCurrentLength] = schedule[i][j];
-                    }
+                    System.arraycopy(schedule[i], 0, schedule[i + halfCurrentLength], halfCurrentLength, halfCurrentLength);
                 }
             }
 
@@ -352,11 +347,11 @@ public class Main {
                     }
 
                 }
-                System.out.println("");
+                System.out.print("\n");
             }
 
         Scanner scanner = new Scanner(System.in);
-        System.out.print("输入任意字符退出: ");
+        System.out.print("输入任意字符回车退出: ");
         scanner.next();
     }
 }
@@ -368,13 +363,13 @@ public class Main {
 2. 查看程序运行结果（如果输入10的时候终端会在窗口内输出一段时间，并不是无法结束的死循环）
 3. 输入任意值回车退出
 
-<img src="img/image-20211229191332967.png" alt="image-20211229191332967" style="zoom:67%;" />
+<img src="img/image-20211229191332967.png" alt="image-20211229191332967" style="zoom: 33%;" />
 
 ## 三、背包问题
 
 ### 3.1 问题描述
 
-<img src="img/image-20211229212846643.png" alt="image-20211229212846643" style="zoom:50%;" />
+<img src="img/image-20211229212846643.png" alt="image-20211229212846643" style="zoom: 33%;" />
 
 ###  3.2 算法思想
 
@@ -460,13 +455,13 @@ public class Main {
 5. 查看输出结果
 6. 输入任意字符回车退出
 
-<img src="img/image-20211229204036249.png" alt="image-20211229204036249" style="zoom: 80%;" />
+<img src="img/image-20211229204036249.png" alt="image-20211229204036249" style="zoom: 50%;" />
 
 ## 四、流水作业调度问题
 
 ### 4.1 问题描述
 
-<img src="img/image-20211229212911316.png" alt="image-20211229212911316" style="zoom:50%;" />
+<img src="img/image-20211229212911316.png" alt="image-20211229212911316" style="zoom: 33%;" />
 
 ### 4.2 算法思想
 
@@ -629,8 +624,4 @@ public class Main {
 3. 查看输出结果模拟的调度过程（最后一次花费的时间为总工作时间）
 4. 输入任意字符回车退出
 
-<img src="img/image-20211229212347921.png" alt="image-20211229212347921" style="zoom:50%;" />
-
-<img src="img/image-20211229212417698.png" alt="image-20211229212417698" style="zoom:50%;" />
-
-<img src="img/image-20211229212544847.png" alt="image-20211229212544847" style="zoom:50%;" />
+<img src="img/image-20211229212347921.png" alt="image-20211229212347921" style="zoom: 33%;" /><img src="img/image-20211229212417698.png" alt="image-20211229212417698" style="zoom: 33%;" /><img src="img/image-20211229212544847.png" alt="image-20211229212544847" style="zoom: 33%;" />
