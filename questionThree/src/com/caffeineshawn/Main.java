@@ -1,62 +1,72 @@
 package com.caffeineshawn;
 
-import java.util.LinkedList;
 import java.util.Scanner;
+
+import static java.lang.Integer.max;
 
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
         Scanner sc = new Scanner(System.in);
-        System.out.printf("n: ");
-        int numsOfLoots = sc.nextInt();
 
-        int[] values = new int[numsOfLoots];
-        int[] weights = new int[numsOfLoots];
-        System.out.printf("values: ");
-        for (int i = 0; i < numsOfLoots; i++) {
+        System.out.print("请输入物品的数量: ");
+        int numOfLoots = sc.nextInt();
+
+        System.out.print("请输入背包的容量: ");
+        int capacity = sc.nextInt();
+
+        int[] values = new int[numOfLoots];
+        int[] weights = new int[numOfLoots];
+        System.out.print("请输入各个物品的价值: ");
+        for (int i = 0; i < numOfLoots; i++) {
             values[i] = sc.nextInt();
         }
-        System.out.printf("weights: ");
-        for (int i = 0; i < numsOfLoots; i++) {
+        System.out.print("请输入各个物品的重量: ");
+        for (int i = 0; i < numOfLoots; i++) {
             weights[i] = sc.nextInt();
         }
 
-        LinkedList<Integer> res = new LinkedList<>();
-        int[][] dp = new int[numsOfLoots + 1][numsOfLoots + 1];
-        boolean[][] path = new boolean[numsOfLoots + 1][numsOfLoots + 1];
-        for (int i = 1; i <= numsOfLoots; i++) {
+        int[][] dp = new int[numOfLoots + 1][capacity + 1];
+
+        for (int i = 1; i <= numOfLoots; i++) {
+            // 设置变量为当前物品的重量、价值
             int curValue = values[i - 1];
             int curWeight = weights[i - 1];
-            for (int j = 1; j <= numsOfLoots; j++) {
-                if (curWeight > j) {
-                    dp[i][j] = dp[i - 1][j];
+
+            for (int j = 1; j <= capacity; j++) {
+                if (j >= curWeight) {
+                    // 如果容量为j的背包放得下当前物品
+                    dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - curWeight] + curValue);
                 } else {
-                    if (dp[i - 1][j] < dp[i - 1][j - curWeight] + curValue) {
-                        path[i][j] = true;
-                        dp[i][j] = dp[i - 1][j - curWeight] + curValue;
-                    } else {
-                        dp[i][j] = dp[i - 1][j];
-                    }
+                    // 放不下，继承之前的结果
+                    dp[i][j] = dp[i - 1][j];
                 }
             }
         }
 
-        for (int i = numsOfLoots; i > 0; i--) {
-
-            for (int j = numsOfLoots; j > 0; j--) {
-                if (path[i][j]) {
-                    res.add(0, values[i-1]);
-                    break;
-                }
+        // 回溯路径
+        boolean[] path = new boolean[numOfLoots + 1];
+        int availableCapacity = capacity;
+        for(int i = numOfLoots; i >= 1; i--) {
+            if(dp[i][availableCapacity] > dp[i-1][availableCapacity]) {
+                // 放入后价值增加
+                path[i] = true;
+                availableCapacity -= weights[i-1];
             }
         }
-        System.out.printf("背包中的货物价值为: ");
-        for (int num : res) {
-            System.out.printf("%d ", num);
+
+        // 输出
+        System.out.print("背包中的货物为: ");
+        for (int i = 1; i <= numOfLoots; i++) {
+            if (path[i]) {
+                System.out.printf("第%d件 ", i);
+            }
         }
+        System.out.print("\n");
+        System.out.println("总价值为: " + dp[numOfLoots][capacity]);
 
-
-
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("输入任意字符回车退出: ");
+        scanner.next();
     }
 }
